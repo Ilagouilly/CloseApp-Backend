@@ -4,6 +4,8 @@ plugins {
 	id 'pl.allegro.tech.build.axion-release' version '1.12.0'
 	id 'java'
 	id 'war'
+	id 'com.palantir.docker' version '0.25.0'
+	id 'com.palantir.docker-run' version '0.25.0'
 }
 
 group = 'com.ismaillagouilly'
@@ -32,6 +34,25 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok:1.18.12'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+String imageName = "closeapprepository/closeapp-$version"
+
+docker {
+	name imageName
+	files "build/libs/closeapp-1.0.0.jar"
+	buildArgs([JAR_FILE: bootJar.archiveFileName.get()])
+}
+
+dockerRun {
+	name project.name
+	image imageName
+	ports '8080:8080'
+	clean true
+}
+
+bootJar {
+	archiveFileName = 'closeapp-1.0.0.jar'
 }
 
 test {
