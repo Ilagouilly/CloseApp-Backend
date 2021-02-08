@@ -12,7 +12,7 @@ public class UserService {
     private UserRepository repository;
 
     public static String helloWorld() {
-        return "Hello World!!!";
+        return "Hello World!";
     }
 
     public String getAllUsers() {
