@@ -5,6 +5,7 @@ plugins {
 	id 'java'
 	id 'com.palantir.docker' version '0.25.0'
 	id 'com.palantir.docker-run' version '0.25.0'
+	id 'jp.classmethod.aws.cloudformation' version '0.41'
 }
 
 group = 'com.ismaillagouilly'
@@ -34,7 +35,8 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
-String imageName = "closeapprepository/closeapp-$version"
+String dockerHubUsernameProperty = "closeapprepository"
+String imageName = "${dockerHubUsernameProperty}/closeapp-$version"
 
 docker {
 	name imageName
@@ -58,3 +60,18 @@ test {
 }
 
 project.version = scmVersion.version
+
+cloudFormation {
+	stackName "$project.name-stack"
+	stackParams([
+			SubnetID: findProperty('subnetId') ?: '',
+			ServiceName: project.name,
+			ServiceVersion: project.version,
+			DockerHubUsername: dockerHubUsernameProperty
+	])
+	templateFile project.file("ecs.yml")
+}
+
+aws {
+	region = findProperty('region') ?: 'us-west-2'
+}
