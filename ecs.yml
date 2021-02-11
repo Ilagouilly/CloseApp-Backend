@@ -32,7 +32,7 @@ Resources:
       NetworkMode: awsvpc
       ContainerDefinitions:
         - Name: !Sub ${ServiceName}-container
-          Image: !Sub ${DockerHubUsername}/${ServiceName}:${ServiceVersion}
+          Image: "closeapprepository/closeapp-1.0.0"
           PortMappings:
             - ContainerPort: 8080
       RequiresCompatibilities:
