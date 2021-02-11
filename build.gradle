@@ -73,5 +73,5 @@ cloudFormation {
 }
 
 aws {
-	region = findProperty('region') ?: 'us-west-2'
+	region = findProperty('region') ?: 'eu-west-3'
 }
