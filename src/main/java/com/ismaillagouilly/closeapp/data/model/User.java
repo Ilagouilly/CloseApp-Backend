@@ -2,9 +2,11 @@ package com.ismaillagouilly.closeapp.data.model;
 
 import org.springframework.data.annotation.Id;
 
+@Entity
 public class User {
 
     @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private String id;
 
     private String firstName;
@@ -16,13 +18,6 @@ public class User {
     public User(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
-    }
-
-    @Override
-    public String toString() {
-        return String.format(
-                "Users[id=%s, firstName='%s', lastName='%s']",
-                this.id, this.firstName, this.lastName);
     }
 
     public String getId() {
